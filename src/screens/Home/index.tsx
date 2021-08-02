@@ -5,29 +5,30 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Logo from '../../assets/logo.svg';
 import { CarCard } from '../../components/CarCard';
 
-import { Container, Header, TotalCars, HeaderContent } from './styles';
+import { Container, Header, TotalCars, HeaderContent, CarList } from './styles';
 
 export const Home: React.FC = () => {
-  const data = {
-    brand: 'AUDI',
-    name: 'RS 5 Coupé',
-    rent: {
-      period: 'Ao dia',
-      price: '120',
+  const data = [
+    {
+      brand: 'AUDI',
+      name: 'RS 5 Coupé',
+      rent: {
+        period: 'Ao dia',
+        price: '120',
+      },
+      thumbnail: 'https://cdn.picpng.com/audi/audi-red-a5-28597.png',
     },
-    thumbnail: 'https://cdn.picpng.com/audi/audi-red-a5-28597.png',
-  };
-
-  const data2 = {
-    brand: 'PORSCHE',
-    name: 'RS 5 Coupé',
-    rent: {
-      period: 'Ao dia',
-      price: '120',
+    {
+      brand: 'PORSCHE',
+      name: 'RS 5 Coupé',
+      rent: {
+        period: 'Ao dia',
+        price: '120',
+      },
+      thumbnail:
+        'https://www.freeiconspng.com/uploads/audi-png-transparent-png-12.png',
     },
-    thumbnail:
-      'https://www.freeiconspng.com/uploads/audi-png-transparent-png-12.png',
-  };
+  ];
 
   return (
     <Container>
@@ -45,8 +46,11 @@ export const Home: React.FC = () => {
         </HeaderContent>
       </Header>
 
-      <CarCard data={data} />
-      <CarCard data={data2} />
+      <CarList
+        data={[1, 2, 3, 4, 5, 6]}
+        keyExtractor={item => String(item)}
+        renderItem={({ item }) => <CarCard data={data[0]} />}
+      />
     </Container>
   );
 };
