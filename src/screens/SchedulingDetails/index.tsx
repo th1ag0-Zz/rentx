@@ -2,6 +2,7 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 
 import { BackButton } from '../../components/BackButton';
@@ -44,10 +45,15 @@ import {
 import { Button } from '../../components/Button';
 
 export const SchedulingDetails: React.FC = () => {
+  const { navigate } = useNavigation();
+  const { colors } = useTheme();
+
   const imageUrl =
     'https://www.freeiconspng.com/uploads/audi-png-transparent-png-12.png';
 
-  const { colors } = useTheme();
+  function handleConfirmRental() {
+    navigate('SchedulingComplete');
+  }
 
   return (
     <Container>
@@ -120,7 +126,11 @@ export const SchedulingDetails: React.FC = () => {
       </Content>
 
       <Footer>
-        <Button title="Escolher período do aluguel" onPress={() => {}} />
+        <Button
+          title="Alugar agora"
+          color={colors.success}
+          onPress={handleConfirmRental}
+        />
       </Footer>
     </Container>
   );

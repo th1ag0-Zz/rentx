@@ -1,5 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 
 import {
@@ -21,7 +22,12 @@ import { Calendar } from '../../components/Calendar';
 import ArrowSvg from '../../assets/arrow.svg';
 
 export const Scheduling: React.FC = () => {
+  const { navigate } = useNavigation();
   const { colors } = useTheme();
+
+  function handleConfirmRental() {
+    navigate('SchedulingDetails');
+  }
 
   return (
     <Container>
@@ -56,7 +62,7 @@ export const Scheduling: React.FC = () => {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button title="Confirmar" onPress={handleConfirmRental} />
       </Footer>
     </Container>
   );

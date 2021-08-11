@@ -1,5 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
@@ -31,8 +32,15 @@ import {
 import { Button } from '../../components/Button';
 
 export const CarDetails: React.FC = () => {
+  const { navigate } = useNavigation();
+
   const imageUrl =
     'https://www.freeiconspng.com/uploads/audi-png-transparent-png-12.png';
+
+  function handleConfirmRental() {
+    navigate('Scheduling');
+  }
+
   return (
     <Container>
       <StatusBar
@@ -79,7 +87,10 @@ export const CarDetails: React.FC = () => {
       </Content>
 
       <Footer>
-        <Button title="Escolher período do aluguel" onPress={() => {}} />
+        <Button
+          title="Escolher período do aluguel"
+          onPress={handleConfirmRental}
+        />
       </Footer>
     </Container>
   );
