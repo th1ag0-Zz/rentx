@@ -9,7 +9,7 @@ import { Container, Content, Title, Message, Footer } from './styles';
 import { ConfirmButton } from '../../components/ConfirmButton';
 
 export const SchedulingComplete: React.FC = () => {
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigation<any>();
   const { width } = useWindowDimensions();
 
   function handleConfirm() {

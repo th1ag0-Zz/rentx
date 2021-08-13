@@ -22,7 +22,7 @@ import { Calendar } from '../../components/Calendar';
 import ArrowSvg from '../../assets/arrow.svg';
 
 export const Scheduling: React.FC = () => {
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigation<any>();
   const { colors } = useTheme();
 
   function handleConfirmRental() {

@@ -45,7 +45,7 @@ import {
 import { Button } from '../../components/Button';
 
 export const SchedulingDetails: React.FC = () => {
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigation<any>();
   const { colors } = useTheme();
 
   const imageUrl =
