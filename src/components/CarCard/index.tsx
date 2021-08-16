@@ -4,8 +4,6 @@ import { RectButtonProps } from 'react-native-gesture-handler';
 import { getAccessorysIcon } from '../../utils/getAccessorysIcon';
 import { CarDTO } from '../../dtos/CarDTO';
 
-import GasolineSvg from '../../assets/gasoline.svg';
-
 import {
   Container,
   Details,

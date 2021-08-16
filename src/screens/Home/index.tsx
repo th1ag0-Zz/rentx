@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { useTheme } from 'styled-components';
+import { Ionicons } from '@expo/vector-icons';
 
 import Logo from '../../assets/logo.svg';
 import { CarCard } from '../../components/CarCard';
@@ -10,9 +12,17 @@ import { Load } from '../../components/Load';
 import { api } from '../../services/api';
 import { CarDTO } from '../../dtos/CarDTO';
 
-import { Container, Header, TotalCars, HeaderContent, CarList } from './styles';
+import {
+  Container,
+  Header,
+  TotalCars,
+  HeaderContent,
+  CarList,
+  MyCarsButton,
+} from './styles';
 
 export const Home: React.FC = () => {
+  const { colors } = useTheme();
   const { navigate } = useNavigation<any>();
 
   const [cars, setCars] = useState<CarDTO[]>([]);
@@ -34,6 +44,10 @@ export const Home: React.FC = () => {
 
   function handleCarDatails(car: CarDTO) {
     navigate('CarDetails', { car });
+  }
+
+  function handleOpenMyCars() {
+    navigate('MyCars');
   }
 
   useEffect(() => {
@@ -67,6 +81,14 @@ export const Home: React.FC = () => {
           )}
         />
       )}
+
+      <MyCarsButton onPress={handleOpenMyCars}>
+        <Ionicons
+          size={RFValue(32)}
+          name="ios-car-sport"
+          color={colors.shape}
+        />
+      </MyCarsButton>
     </Container>
   );
 };
