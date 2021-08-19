@@ -5,7 +5,7 @@
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "start": "react-native start",
-    "server": "json-server server.json --host 192.168.100.3 --port 3333 --delay 1000"
+    "server": "json-server server.json --host 192.168.100.3 --port 3333 --delay 1500"
   },
   "dependencies": {
     "@expo-google-fonts/archivo": "^0.2.0",
@@ -21,6 +21,7 @@
     "expo-splash-screen": "~0.11.2",
     "expo-status-bar": "~1.0.4",
     "expo-updates": "~0.8.1",
+    "lottie-react-native": "4.0.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "~0.63.4",

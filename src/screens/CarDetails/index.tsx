@@ -1,6 +1,13 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import Animated, {
+  useSharedValue,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  interpolate,
+  Extrapolate,
+} from 'react-native-reanimated';
 
 import { CarDTO } from '../../dtos/CarDTO';
 
@@ -14,7 +21,6 @@ import {
   Container,
   Header,
   SliderContent,
-  Content,
   Details,
   Description,
   Brand,
@@ -37,6 +43,29 @@ export const CarDetails: React.FC = () => {
   const { params } = useRoute();
   const { car } = params as Params;
 
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler(event => {
+    const formatValue = Number(event.contentOffset.y.toFixed(0));
+    scrollY.value = formatValue < 0 ? 0 : formatValue;
+  });
+
+  const headerStyleAnimation = useAnimatedStyle(() => {
+    return {
+      height: interpolate(
+        scrollY.value,
+        [0, 200],
+        [295, 120],
+        Extrapolate.CLAMP,
+      ),
+    };
+  });
+
+  const sliderStyleAnimation = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(scrollY.value, [0, 150], [1, 0], Extrapolate.CLAMP),
+    };
+  });
+
   function handleConfirmRental() {
     navigate('Scheduling', { car });
   }
@@ -53,15 +82,24 @@ export const CarDetails: React.FC = () => {
         barStyle="dark-content"
       />
 
-      <Header>
-        <BackButton onPress={handleBack} />
-      </Header>
+      <Animated.View style={[headerStyleAnimation]}>
+        <Header>
+          <BackButton onPress={handleBack} />
+        </Header>
 
-      <SliderContent>
-        <ImageSlider imagesUrl={car.photos} />
-      </SliderContent>
+        <Animated.View style={sliderStyleAnimation}>
+          <SliderContent>
+            <ImageSlider imagesUrl={car.photos} />
+          </SliderContent>
+        </Animated.View>
+      </Animated.View>
 
-      <Content>
+      <Animated.ScrollView
+        contentContainerStyle={{ paddingHorizontal: 24, alignItems: 'center' }}
+        showsVerticalScrollIndicator={false}
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
+      >
         <Details>
           <Description>
             <Brand>{car.brand}</Brand>
@@ -85,7 +123,7 @@ export const CarDetails: React.FC = () => {
         </Accessorys>
 
         <About>{car.about}</About>
-      </Content>
+      </Animated.ScrollView>
 
       <Footer>
         <Button

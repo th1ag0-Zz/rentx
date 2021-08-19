@@ -18,19 +18,14 @@ export const Header = styled.View`
 
 export const SliderContent = styled.View`
   padding-top: ${RFValue(72)}px;
+  margin-bottom: 20px;
 `;
-
-export const Content = styled.ScrollView.attrs({
-  contentContainerStyle: { padding: 24, alignItems: 'center' },
-  showsVerticalScrollIndicator: false,
-})``;
 
 export const Details = styled.View`
   width: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 38px;
 `;
 
 export const Description = styled.View``;

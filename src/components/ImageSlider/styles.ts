@@ -30,6 +30,7 @@ export const CarImageWraper = styled.View`
   height: ${RFValue(132)}px;
   align-items: center;
   justify-content: center;
+  margin-top: 20px;
 `;
 
 export const CarImage = styled.Image`

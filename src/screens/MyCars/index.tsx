@@ -6,7 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 import { api } from '../../services/api';
 import { CarDTO } from '../../dtos/CarDTO';
-import { Load } from '../../components/Load';
+import { LoadAnimation } from '../../components/LoadAnimation';
 import { BackButton } from '../../components/BackButton';
 import { CarCard } from '../../components/CarCard';
 
@@ -77,7 +77,7 @@ export const MyCars: React.FC = () => {
       </Header>
 
       {loading ? (
-        <Load />
+        <LoadAnimation />
       ) : (
         <Content>
           <Appointments>
