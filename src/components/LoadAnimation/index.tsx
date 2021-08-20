@@ -11,7 +11,7 @@ export const LoadAnimation: React.FC = () => {
       <LottieView
         source={loadingCar}
         autoPlay
-        style={{ height: 180 }}
+        style={{ height: 80 }}
         resizeMode="contain"
         loop
       />

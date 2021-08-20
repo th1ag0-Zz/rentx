@@ -6,6 +6,10 @@ interface Props {
   color?: string;
 }
 
+interface TextProps {
+  light?: boolean;
+}
+
 export const Container = styled(RectButton)<Props>`
   width: 100%;
   padding: 18px;
@@ -15,8 +19,9 @@ export const Container = styled(RectButton)<Props>`
     color ? color : theme.colors.main};
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<TextProps>`
   font-family: ${({ theme }) => theme.fonts.primary_500};
   font-size: ${RFValue(15)}px;
-  color: ${({ theme }) => theme.colors.shape};
+  color: ${({ light, theme }) =>
+    light ? theme.colors.title : theme.colors.shape};
 `;
