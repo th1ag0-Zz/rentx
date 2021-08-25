@@ -8,7 +8,7 @@ import { Container, IconContainer, InputText } from './styles';
 
 interface InputProps extends TextInputProps {
   iconName: React.ComponentProps<typeof Feather>['name'];
-  value: string;
+  value?: string;
 }
 
 export const Input: React.FC<InputProps> = ({ iconName, value, ...rest }) => {

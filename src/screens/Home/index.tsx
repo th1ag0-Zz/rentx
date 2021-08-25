@@ -60,7 +60,7 @@ export const Home: React.FC = () => {
 
     onEnd(event, ctx: any) {
       positionX.value = withSpring(0);
-      positionY.value = withSpring(positionY.value);
+      positionY.value = withSpring(0);
     },
   });
 

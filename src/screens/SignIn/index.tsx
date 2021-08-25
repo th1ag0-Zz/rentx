@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { useTheme } from 'styled-components';
 import * as Yup from 'yup';
+import { useNavigation } from '@react-navigation/native';
 
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -25,6 +26,7 @@ import {
 
 export const SignIn: React.FC = () => {
   const { colors } = useTheme();
+  const { navigate } = useNavigation<any>();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -48,6 +50,10 @@ export const SignIn: React.FC = () => {
         Alert.alert('Atenção!', error.message);
       }
     }
+  }
+
+  function hanldeNewAccount() {
+    navigate('StepOne');
   }
 
   return (
@@ -98,7 +104,7 @@ export const SignIn: React.FC = () => {
 
             <Button
               title="Criar conta gratuita"
-              onPress={() => {}}
+              onPress={hanldeNewAccount}
               enabled={true}
               color={colors.background_secondary}
               light

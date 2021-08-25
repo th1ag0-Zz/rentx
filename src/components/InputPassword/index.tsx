@@ -9,7 +9,7 @@ import { Container, IconContainer, InputText } from './styles';
 
 interface InputPassword extends TextInputProps {
   iconName: React.ComponentProps<typeof Feather>['name'];
-  value: string;
+  value?: string;
 }
 
 export const InputPassword: React.FC<InputPassword> = ({
