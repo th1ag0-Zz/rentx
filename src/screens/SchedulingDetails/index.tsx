@@ -88,7 +88,13 @@ export const SchedulingDetails: React.FC = () => {
         id: car.id,
         unavailable_dates,
       })
-      .then(() => navigate('SchedulingComplete'))
+      .then(() =>
+        navigate('Confirmation', {
+          title: 'Carro alugado!!',
+          message: 'Agora você só precisa ir\naté a concessionária da RENTX',
+          nextScreenRoute: 'Home',
+        }),
+      )
       .catch(() => {
         Alert.alert('Não foi possível fazer o agendamento');
         setLoading(false);

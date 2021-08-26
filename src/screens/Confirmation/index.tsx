@@ -1,6 +1,6 @@
 import React from 'react';
 import { useWindowDimensions, StatusBar } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import LogoSvg from '../../assets/logo_background_gray.svg';
 import DoneSvg from '../../assets/done.svg';
@@ -8,12 +8,21 @@ import DoneSvg from '../../assets/done.svg';
 import { Container, Content, Title, Message, Footer } from './styles';
 import { ConfirmButton } from '../../components/ConfirmButton';
 
-export const SchedulingComplete: React.FC = () => {
+interface Params {
+  title: string;
+  message: string;
+  nextScreenRoute: string;
+}
+
+export const Confirmation: React.FC = () => {
+  const { params } = useRoute();
+  const { title, message, nextScreenRoute } = params as Params;
+
   const { navigate } = useNavigation<any>();
   const { width } = useWindowDimensions();
 
   function handleConfirm() {
-    navigate('Home');
+    navigate(nextScreenRoute);
   }
 
   return (
@@ -28,13 +37,9 @@ export const SchedulingComplete: React.FC = () => {
 
       <Content>
         <DoneSvg width={80} heigth={80} />
-        <Title>{'Carro alugado'}</Title>
+        <Title>{title}</Title>
 
-        <Message>
-          {
-            'Agora você só precisa ir\naté a concessionária da RENTX\ne pegar seu automóvel.'
-          }
-        </Message>
+        <Message>{message}</Message>
       </Content>
 
       <Footer>

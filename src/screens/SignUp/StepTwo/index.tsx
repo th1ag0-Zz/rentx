@@ -33,7 +33,7 @@ interface Params {
 
 export const StepTwo: React.FC = () => {
   const { colors } = useTheme();
-  const { goBack } = useNavigation();
+  const { navigate, goBack } = useNavigation<any>();
   const route = useRoute();
 
   const { user } = route.params as Params;
@@ -54,7 +54,11 @@ export const StepTwo: React.FC = () => {
       return Alert.alert('Opa', 'As senhas não são iguais');
     }
 
-    console.log('tudo certo');
+    navigate('Confirmation', {
+      title: 'Conta criada!',
+      message: '',
+      nextScreenRoute: 'SignIn',
+    });
   }
 
   return (
