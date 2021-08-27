@@ -8,6 +8,8 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 
+import { api } from '../../../services/api';
+
 import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { InputPassword } from '../../../components/InputPassword';
@@ -54,11 +56,23 @@ export const StepTwo: React.FC = () => {
       return Alert.alert('Opa', 'As senhas não são iguais');
     }
 
-    navigate('Confirmation', {
-      title: 'Conta criada!',
-      message: '',
-      nextScreenRoute: 'SignIn',
-    });
+    await api
+      .post('/users', {
+        name: user.name,
+        email: user.email,
+        password,
+        driver_license: user.driverLicense,
+      })
+      .then(() => {
+        navigate('Confirmation', {
+          title: 'Conta criada!',
+          message: '',
+          nextScreenRoute: 'SignIn',
+        });
+      })
+      .catch(() => {
+        Alert.alert('Opa!', 'Não foi possível cadastrar');
+      });
   }
 
   return (
