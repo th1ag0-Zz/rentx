@@ -5,7 +5,10 @@ import { Bullet } from '../Bullet';
 import { Container, ImageIndexes, CarImageWraper, CarImage } from './styles';
 
 interface Props {
-  imagesUrl: string[];
+  imagesUrl: {
+    id: string;
+    photo: string;
+  }[];
 }
 
 interface ChangeImagesProps {
@@ -25,18 +28,18 @@ export const ImageSlider: React.FC<Props> = ({ imagesUrl }) => {
     <Container>
       <ImageIndexes>
         {imagesUrl.map((item, index) => (
-          <Bullet key={index} active={imageIndex === index} />
+          <Bullet key={item.id} active={imageIndex === index} />
         ))}
       </ImageIndexes>
 
       <FlatList
         data={imagesUrl}
-        keyExtractor={key => key}
+        keyExtractor={item => item.id}
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <CarImageWraper>
-            <CarImage source={{ uri: item }} resizeMode="contain" />
+            <CarImage source={{ uri: item.photo }} resizeMode="contain" />
           </CarImageWraper>
         )}
         onViewableItemsChanged={indexChange.current}

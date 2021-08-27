@@ -10,12 +10,15 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 
+import { useAuth } from '../../hooks/auth';
+
 import BrandSvg from '../../assets/brand.svg';
 import LogoSvg from '../../assets/logo.svg';
 
 import { Container } from './styles';
 
 export const Splash: React.FC = () => {
+  const { user } = useAuth();
   const { navigate } = useNavigation<any>();
   const splashAnimation = useSharedValue(0);
 
@@ -52,6 +55,7 @@ export const Splash: React.FC = () => {
   });
 
   function startApp() {
+    //const screenName = user.id ? 'Home' : 'SignIn';
     navigate('SignIn');
   }
 
