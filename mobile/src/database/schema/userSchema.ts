@@ -23,6 +23,10 @@ const userSchema = tableSchema({
       name: 'avatar',
       type: 'string',
     },
+    {
+      name: 'token',
+      type: 'string',
+    },
   ],
 });
 

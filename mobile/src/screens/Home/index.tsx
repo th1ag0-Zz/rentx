@@ -18,26 +18,34 @@ export const Home: React.FC = () => {
   const [cars, setCars] = useState<CarDTO[]>([]);
   const [loading, setLoading] = useState(true);
 
-  async function loadData() {
-    try {
-      const response = await api.get('/cars');
-
-      const data = response.data as CarDTO[];
-
-      setCars(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   function handleCarDatails(car: CarDTO) {
     navigate('CarDetails', { car });
   }
 
   useEffect(() => {
+    let isMonted = true;
+
+    async function loadData() {
+      try {
+        const response = await api.get('/cars');
+        const data = response.data as CarDTO[];
+
+        if (isMonted) {
+          setCars(data);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        if (isMonted) {
+          setLoading(false);
+        }
+      }
+    }
+
     loadData();
+    return () => {
+      isMonted = false;
+    };
   }, []);
 
   return (
