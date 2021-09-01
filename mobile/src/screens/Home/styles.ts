@@ -32,6 +32,15 @@ export const TotalCars = styled.Text`
   color: ${({ theme }) => theme.colors.text};
 `;
 
+export const ErrorText = styled.Text`
+  font-size: ${RFValue(16)}px;
+  font-family: ${({ theme }) => theme.fonts.secondary_600};
+  color: ${({ theme }) => theme.colors.title};
+  text-align: center;
+  line-height: ${RFValue(24)}px;
+  margin-top: 40px;
+`;
+
 export const CarList = styled(FlatList as new () => FlatList<CarDTO>).attrs({
   contentContainerStyle: {
     padding: 24,

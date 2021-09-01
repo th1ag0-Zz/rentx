@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
@@ -10,13 +10,21 @@ import { LoadAnimation } from '../../components/LoadAnimation';
 import { api } from '../../services/api';
 import { CarDTO } from '../../dtos/CarDTO';
 
-import { Container, Header, TotalCars, HeaderContent, CarList } from './styles';
+import {
+  Container,
+  Header,
+  TotalCars,
+  HeaderContent,
+  ErrorText,
+  CarList,
+} from './styles';
 
 export const Home: React.FC = () => {
   const { navigate } = useNavigation<any>();
 
   const [cars, setCars] = useState<CarDTO[]>([]);
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
 
   function handleCarDatails(car: CarDTO) {
     navigate('CarDetails', { car });
@@ -35,6 +43,9 @@ export const Home: React.FC = () => {
         }
       } catch (error) {
         console.log(error);
+        if (isMonted) {
+          setErrorMessage('Ocorreu um erro.\nTente novamente mais tarde!');
+        }
       } finally {
         if (isMonted) {
           setLoading(false);
@@ -65,6 +76,8 @@ export const Home: React.FC = () => {
 
       {loading ? (
         <LoadAnimation />
+      ) : errorMessage ? (
+        <ErrorText>{errorMessage}</ErrorText>
       ) : (
         <CarList
           data={cars}
