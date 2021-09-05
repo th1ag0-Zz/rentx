@@ -1,8 +1,8 @@
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { CarDTO } from '../../dtos/CarDTO';
 import { RectButton } from 'react-native-gesture-handler';
+import { Car as ModelCar } from '../../database/models/Car';
 import { Ionicons } from '@expo/vector-icons';
 
 export const Container = styled.View`
@@ -41,7 +41,7 @@ export const ErrorText = styled.Text`
   margin-top: 40px;
 `;
 
-export const CarList = styled(FlatList as new () => FlatList<CarDTO>).attrs({
+export const CarList = styled(FlatList as new () => FlatList<ModelCar>).attrs({
   contentContainerStyle: {
     padding: 24,
     paddingBottom: 8,

@@ -1,5 +1,5 @@
-import React from 'react';
-import { StatusBar } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StatusBar, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Animated, {
   useSharedValue,
@@ -8,12 +8,17 @@ import Animated, {
   interpolate,
   Extrapolate,
 } from 'react-native-reanimated';
+import { useNetInfo } from '@react-native-community/netinfo';
+
+import { api } from '../../services/api';
 
 import { CarDTO } from '../../dtos/CarDTO';
+import { Car as ModelCar } from '../../database/models/Car';
 
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
+import { Button } from '../../components/Button';
 
 import { getAccessorysIcon } from '../../utils/getAccessorysIcon';
 
@@ -32,16 +37,18 @@ import {
   Accessorys,
   Footer,
 } from './styles';
-import { Button } from '../../components/Button';
 
 interface Params {
-  car: CarDTO;
+  car: ModelCar;
 }
 
 export const CarDetails: React.FC = () => {
   const { navigate, goBack } = useNavigation<any>();
   const { params } = useRoute();
   const { car } = params as Params;
+
+  const netInfo = useNetInfo();
+  const [carUpdated, setCarUpdated] = useState<CarDTO>({} as CarDTO);
 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler(event => {
@@ -74,6 +81,17 @@ export const CarDetails: React.FC = () => {
     goBack();
   }
 
+  useEffect(() => {
+    async function fetchCarUpdated() {
+      const response = await api.get(`/cars/${car.id}`);
+      setCarUpdated(response.data);
+    }
+
+    if (netInfo.isConnected === true) {
+      fetchCarUpdated();
+    }
+  }, [netInfo.isConnected]);
+
   return (
     <Container>
       <StatusBar
@@ -89,15 +107,21 @@ export const CarDetails: React.FC = () => {
 
         <Animated.View style={sliderStyleAnimation}>
           <SliderContent>
-            <ImageSlider imagesUrl={car.photos} />
+            <ImageSlider
+              imagesUrl={
+                !!carUpdated.photos
+                  ? carUpdated.photos
+                  : [{ id: car.thumbnail, photo: car.thumbnail }]
+              }
+            />
           </SliderContent>
         </Animated.View>
       </Animated.View>
 
-      <Animated.ScrollView
+      <ScrollView
         contentContainerStyle={{ paddingHorizontal: 24, alignItems: 'center' }}
         showsVerticalScrollIndicator={false}
-        onScroll={scrollHandler}
+        // onScroll={scrollHandler}
         scrollEventThrottle={16}
       >
         <Details>
@@ -108,27 +132,32 @@ export const CarDetails: React.FC = () => {
 
           <Rent>
             <Period>{car.period}</Period>
-            <Price>{`R$ ${car.price}`}</Price>
+            <Price>{`R$ ${
+              netInfo.isConnected === true ? car.price : '...'
+            }`}</Price>
           </Rent>
         </Details>
 
-        <Accessorys>
-          {car.accessories.map(item => (
-            <Accessory
-              key={item.type}
-              icon={getAccessorysIcon(item.type)}
-              name={item.name}
-            />
-          ))}
-        </Accessorys>
+        {!!carUpdated.accessories && (
+          <Accessorys>
+            {carUpdated.accessories.map(item => (
+              <Accessory
+                key={item.type}
+                icon={getAccessorysIcon(item.type)}
+                name={item.name}
+              />
+            ))}
+          </Accessorys>
+        )}
 
         <About>{car.about}</About>
-      </Animated.ScrollView>
+      </ScrollView>
 
       <Footer>
         <Button
           title="Escolher período do aluguel"
           onPress={handleConfirmRental}
+          enabled={!!netInfo.isConnected}
         />
       </Footer>
     </Container>

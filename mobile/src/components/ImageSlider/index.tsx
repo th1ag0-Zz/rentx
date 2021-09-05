@@ -43,6 +43,7 @@ export const ImageSlider: React.FC<Props> = ({ imagesUrl }) => {
           </CarImageWraper>
         )}
         onViewableItemsChanged={indexChange.current}
+        pagingEnabled
       />
     </Container>
   );

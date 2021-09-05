@@ -9,12 +9,15 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useTheme } from 'styled-components';
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import * as Yup from 'yup';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 import { useAuth } from '../../hooks/auth';
 
 import { BackButton } from '../../components/BackButton';
 import { Input } from '../../components/Input';
 import { InputPassword } from '../../components/InputPassword';
+import { Button } from '../../components/Button';
 
 import {
   Container,
@@ -31,11 +34,13 @@ import {
   OptionName,
   Section,
 } from './styles';
+import { Alert } from 'react-native';
 
 export const Profile: React.FC = () => {
+  const netInfo = useNetInfo();
   const { colors } = useTheme();
   const { goBack } = useNavigation();
-  const { user, signOut } = useAuth();
+  const { user, signOut, updateUser } = useAuth();
 
   const [avatar, setAvatar] = useState(user.avatar);
   const [name, setName] = useState(user.avatar);
@@ -49,11 +54,50 @@ export const Profile: React.FC = () => {
   }
 
   function handleSignOut() {
-    signOut();
+    Alert.alert(
+      'Tem certeza',
+      'Se sair, irá precisar de internet para conectar novamente',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => {},
+        },
+        {
+          text: 'Sim',
+          onPress: () => signOut(),
+        },
+      ],
+    );
   }
 
   function handleOptionChange(option: 'dataEdit' | 'passwordEdit') {
     setOptionEdit(option);
+  }
+
+  async function handleUpdateUser() {
+    try {
+      const schema = Yup.object().shape({
+        driverLicense: Yup.string().required('CNH é obrigatória'),
+        name: Yup.string().required('Nome é obrigatório'),
+      });
+
+      const data = { name, driverLicense };
+      await schema.validate(data);
+
+      await updateUser({
+        id: user.id,
+        user_id: user.user_id,
+        name,
+        email: user.email,
+        driver_license: driverLicense,
+        token: user.token,
+        avatar,
+      });
+
+      Alert.alert('Perfil atualizado');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function handleSelectAvatar() {
@@ -104,14 +148,17 @@ export const Profile: React.FC = () => {
                   {'Dados'}
                 </OptionName>
               </Option>
-              <Option
-                active={optionEdit === 'passwordEdit'}
-                onPress={() => handleOptionChange('passwordEdit')}
-              >
-                <OptionName active={optionEdit === 'passwordEdit'}>
-                  {'Trocar senha'}
-                </OptionName>
-              </Option>
+
+              {netInfo.isConnected && (
+                <Option
+                  active={optionEdit === 'passwordEdit'}
+                  onPress={() => handleOptionChange('passwordEdit')}
+                >
+                  <OptionName active={optionEdit === 'passwordEdit'}>
+                    {'Trocar senha'}
+                  </OptionName>
+                </Option>
+              )}
             </Options>
 
             {optionEdit === 'dataEdit' ? (
@@ -155,6 +202,8 @@ export const Profile: React.FC = () => {
                 />
               </Section>
             )}
+
+            <Button title="Salvar alterações" onPress={handleUpdateUser} />
           </Content>
         </Container>
       </TouchableWithoutFeedback>
