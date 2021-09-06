@@ -30,7 +30,6 @@ export const Details = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 38px;
 `;
 
 export const Description = styled.View``;

@@ -113,6 +113,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setData(userData);
         setLoading(false);
       }
+      setLoading(false);
     }
 
     fetchDatabase();
