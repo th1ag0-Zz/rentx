@@ -14,25 +14,31 @@
 
 ## 💻 Projeto
 
-em construção...
+O RentX é umn app para fazer agendamentos de carros com uma interface otimista e com implementação do conceito de Offline First.
 
-## :hammer_and_wrench: Features 
+## :hammer_and_wrench: Features
 
-em construção...
-
+- [x] Armazenamento em banco de dados local
+- [x] Offilne First 
 
 ## ✨ Tecnologias
 
-em construção...
+- [x] Expo
+- [x] Typescript
+- [x] Axios
+- [x] WatermelonDB
 
 ## Executando o projeto
 
-Utilize o **yarn** ou o **npm install** para instalar as dependências do projeto.
+Entre na pasta "mobile" e "server" e tilize o **yarn** ou o **npm install** para instalar as dependências do projeto.
 Em seguida, inicie o projeto.
 
 ```cl
-expo start
+yarn start
 ```
+em cada pasta separada
+
+</br>
 
 ## 📄 Licença
 
